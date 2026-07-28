@@ -46,3 +46,9 @@ This project demonstrates how to reliably detect and match a 3D object (a John D
 * **Model Keypoints:** Successfully extracted from the cropped ROI.
 * **Scene Keypoints:** Extracted from the full, complex field environment.
 * **RANSAC Inliers:** The final output demonstrates highly accurate mapping between the cropped model features and the target scene, completely ignoring background artifacts like clouds or soil.
+
+<br>
+
+<div align="center">
+  <img src="result_output.jpg" alt="SIFT and RANSAC Tractor Matching Result" width="90%">
+</div>
