@@ -20,4 +20,3 @@
 - [ ] **Image Preprocessing:** 온실/노지 환경의 불규칙한 조명 보정을 위한 영상 전처리 (Gaussian Blur, Gamma Correction)
 
 ---
-*💡 이 저장소의 코드는 추후 생물산업기계공학 및 스마트팜 연구에 응용하기 위한 기초 자료로 활용됩니다.*
