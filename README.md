@@ -50,5 +50,5 @@ This project demonstrates how to reliably detect and match a 3D object (a John D
 <br>
 
 <div align="center">
-  <img src="result_output.jpg" alt="SIFT and RANSAC Tractor Matching Result" width="90%">
+  <img src="result_output.png" alt="SIFT and RANSAC Tractor Matching Result" width="90%">
 </div>
