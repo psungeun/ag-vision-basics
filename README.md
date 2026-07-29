@@ -55,20 +55,24 @@ This project demonstrates how to reliably detect and match a 3D object (a John D
 
 ---
 
-## 📝 Project 02: Leaf Area Segmentation & Phenotypic Trait Extraction
+## 📝 Project 02: Automated Leaf Area Segmentation & Phenotypic Trait Extraction
 
-In smart farming and precision agriculture, accurately measuring plant phenotypic traits (e.g., leaf area) is essential for monitoring crop health and growth rates. This project demonstrates how to isolate a specific target leaf from a highly cluttered greenhouse background and computationally extract its physical area.
+In precision agriculture, non-destructive estimation of plant canopy area is crucial for monitoring growth and health. This project focuses on automatically segmenting a target crop (lettuce) from an open-field soil background and computationally extracting its phenotypic traits.
 
 ### 🔍 Methodology
 
-1. **Foreground Segmentation (GrabCut Algorithm)**
-   * **Why?** Greenhouse images contain complex backgrounds (soil, pipes, other overlapping plants) that simple thresholding cannot handle. 
-   * **Approach:** Utilized the Graph-Cut based **GrabCut** algorithm. By initializing a bounding box (ROI) around the target leaf, the algorithm models the color distribution (Gaussian Mixture Model) of the foreground and background, iteratively refining the segmentation mask to isolate only the target leaf.
+1. **Automated ROI Detection (HSV Color Space)**
+   * **Challenge:** Manually defining bounding boxes for thousands of crop images is highly inefficient for real-world farming applications.
+   * **Approach:** Applied an HSV color space mask to automatically detect green vegetation. The algorithm calculates the bounding box of the largest connected green component, establishing an automated Region of Interest (Auto-ROI).
    
-2. **Morphological Analysis & Contour Extraction**
-   * Applied binary masking to extract the segmented foreground.
-   * Utilized `cv2.findContours` (External Retrieval Mode) to mathematically define the boundary of the isolated leaf.
+2. **Foreground Segmentation (GrabCut Algorithm)**
+   * Utilized the Graph-Cut based **GrabCut** algorithm initialized with the Auto-ROI. 
+   * GrabCut models the color distributions of the foreground (lettuce) and background (soil, rocks) using Gaussian Mixture Models (GMMs), iteratively refining the mask to perfectly isolate the plant from complex noise.
 
-3. **Phenotypic Trait Calculation (Leaf Area)**
-   * Computed the total pixel area of the leaf using image moments (`cv2.contourArea`). 
-   * This non-destructive measurement technique is a fundamental step toward automated plant growth monitoring systems.
+3. **Phenotypic Trait Extraction (Contour & Area)**
+   * Extracted the external boundaries (`cv2.findContours`) from the binary segmentation mask.
+   * Computed the total pixel area using image moments (`cv2.contourArea`), providing a quantifiable metric for plant canopy size.
+
+### 🚀 Results
+* **Robust Segmentation:** Successfully separated the complex open-field background (soil and stones) from the target lettuce plant without any manual coordinate inputs.
+* **Automated Phenotyping:** The pipeline successfully output the plant's surface area (e.g., 322,537 px), demonstrating a scalable and highly accurate approach for high-throughput crop monitoring.
