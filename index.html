@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ag-Vision Algorithm Recommender</title>
+    <style>
+        :root {
+            --primary-color: #2ea44f;
+            --bg-color: #f6f8fa;
+            --box-bg: #ffffff;
+            --text-color: #24292e;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { text-align: center; color: var(--primary-color); }
+        p.subtitle { text-align: center; color: #586069; margin-bottom: 2rem; }
+        
+        .question-box {
+            background-color: var(--box-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        
+        button {
+            background-color: #f3f4f6;
+            border: 1px solid #d1d5da;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-weight: 600;
+        }
+        button:hover { background-color: #e1e4e8; border-color: #959da5; }
+        button.selected { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        .result-box {
+            display: none;
+            background-color: var(--box-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .prompt-container {
+            background-color: #24292e;
+            color: #e1e4e8;
+            padding: 15px;
+            border-radius: 6px;
+            position: relative;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .copy-btn:hover { background-color: #22863a; }
+    </style>
+</head>
+<body>
+
+    <h1>🚜 Ag-Vision Pro: Algorithm Recommender</h1>
+    <p class="subtitle">농업용 컴퓨터 비전 프로젝트를 위한 알고리즘 추천 및 맞춤형 프롬프트 생성기</p>
+
+    <div class="question-box">
+        <h3>해결하고자 하는 농업 비전(Vision) 문제가 무엇인가요?</h3>
+        <div class="btn-group">
+            <button onclick="showResult('sift', this)">1. 트랙터나 농기계 등 특정 입체 객체(3D Object)를 다른 환경에서 인식하고 매칭하고 싶습니다.</button>
+            <button onclick="showResult('grabcut', this)">2. 복잡한 흙바닥이나 배경에서 작물(잎사귀 등) 영역만 깔끔하게 분할하고 면적을 구하고 싶습니다.</button>
+            <button onclick="showResult('gamma', this)">3. 온실이나 노지의 그림자, 과노출 등 불규칙한 조명 문제를 해결하고 화질을 전처리하고 싶습니다.</button>
+        </div>
+    </div>
+
+    <div id="resultBox" class="result-box">
+        <h3 id="algoTitle" style="color: #2ea44f; margin-top: 0;"></h3>
+        <p id="algoDesc"></p>
+        
+        <h4>💡 AI에게 복사해서 전달할 맞춤형 프롬프트:</h4>
+        <div class="prompt-container">
+            <button class="copy-btn" onclick="copyPrompt()">복사하기 (Copy)</button>
+            <div id="promptText"></div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            sift: {
+                title: "✅ 추천 알고리즘: SIFT & RANSAC (객체 매칭)",
+                desc: "3D 객체 인식에는 평면 변환(Homography) 억지 적용을 피하고, 크기와 회전에 강건한 SIFT 특징점 추출 후 RANSAC으로 오답을 걸러내는 방식이 가장 효과적입니다.",
+                prompt: "농업용 트랙터 객체 인식 포트폴리오 코드를 작성해 줘.\n\n1. 사용할 파일:\n- 정답지(Model): [여기에 파일명 입력]\n- 실제 환경(Scene): [여기에 파일명 입력]\n\n2. 요구사항:\n- 3D 입체 물체이므로 억지로 사각형 박스(Homography)를 그리지 마.\n- SIFT로 공통 특징점을 찾고 RANSAC 알고리즘으로 오답을 필터링해 줘.\n- 시각적으로 깔끔하게 가장 정확한 매칭 선 30개만 그려줘.\n- 모든 주석은 전문적인 컴퓨터 비전 영단어로 작성해 줘."
+            },
+            grabcut: {
+                title: "✅ 추천 알고리즘: HSV Auto-ROI & GrabCut (영역 분할)",
+                desc: "복잡한 농업 환경에서는 수동으로 좌표를 찍는 대신, HSV 색상 공간으로 작물(녹색)을 자동 탐지한 뒤 GrabCut 알고리즘으로 배경(흙, 돌)을 완벽히 분할하는 것이 효율적입니다.",
+                prompt: "작물 잎사귀(Leaf Area) 분할 포트폴리오 코드를 작성해 줘.\n\n1. 사용할 파일:\n- 식물 이미지: [여기에 파일명 입력]\n\n2. 요구사항:\n- 수동 좌표 입력 대신 HSV 색상 공간을 이용해 식물을 찾고 자동 ROI를 설정해 줘.\n- 설정된 ROI를 바탕으로 GrabCut 알고리즘을 사용해 배경(흙, 그림자)을 분리해 줘.\n- 분할된 잎의 윤곽선(Contours)을 찾고 면적(Area)을 계산해서 이미지에 텍스트로 띄워줘.\n- 모든 주석은 Plant Phenotyping 영단어로 작성해 줘."
+            },
+            gamma: {
+                title: "✅ 추천 알고리즘: Gaussian Blur & Gamma Correction (이미지 전처리)",
+                desc: "온실의 불규칙한 자연광이나 그림자는 영상 분할을 방해합니다. Gaussian Blur로 노이즈를 제거하고 비선형 Gamma 보정을 통해 조명의 동적 범위를 균일하게 맞춰주어야 합니다.",
+                prompt: "불규칙한 조명 환경의 농업 이미지 전처리 코드를 작성해 줘.\n\n1. 사용할 파일:\n- 전처리할 이미지: [여기에 파일명 입력]\n\n2. 요구사항:\n- 5x5 Gaussian Blur를 사용해서 이미지의 고주파 노이즈를 먼저 제거해 줘.\n- 비선형 감마 보정(Gamma Correction) 공식을 함수로 구현해 줘.\n- 어두운 곳을 살리는 보정(Gamma=2.0)과 과노출을 잡아주는 보정(Gamma=0.5) 결과를 함께 비교할 수 있도록 시각화해 줘.\n- 모든 주석은 컴퓨터 비전 영단어로 작성해 줘."
+            }
+        };
+
+        function showResult(type, btnElement) {
+            // 버튼 색상 변경
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            btnElement.classList.add('selected');
+
+            // 결과 업데이트
+            document.getElementById('algoTitle').innerText = data[type].title;
+            document.getElementById('algoDesc').innerText = data[type].desc;
+            document.getElementById('promptText').innerText = data[type].prompt;
+            
+            // 결과창 보이기
+            document.getElementById('resultBox').style.display = 'block';
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptText').innerText;
+            navigator.clipboard.writeText(promptText).then(() => {
+                alert("프롬프트가 클립보드에 복사되었습니다! AI 챗봇에 붙여넣기 하세요.");
+            });
+        }
+    </script>
+</body>
+</html>
