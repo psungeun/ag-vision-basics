@@ -53,6 +53,8 @@ This project demonstrates how to reliably detect and match a 3D object (a John D
   <img src="result_output.png" alt="SIFT and RANSAC Tractor Matching Result" width="90%">
 </div>
 
+---
+
 ## 📝 Project 02: Leaf Area Segmentation & Phenotypic Trait Extraction
 
 In smart farming and precision agriculture, accurately measuring plant phenotypic traits (e.g., leaf area) is essential for monitoring crop health and growth rates. This project demonstrates how to isolate a specific target leaf from a highly cluttered greenhouse background and computationally extract its physical area.
