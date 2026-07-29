@@ -72,7 +72,3 @@ In smart farming and precision agriculture, accurately measuring plant phenotypi
 3. **Phenotypic Trait Calculation (Leaf Area)**
    * Computed the total pixel area of the leaf using image moments (`cv2.contourArea`). 
    * This non-destructive measurement technique is a fundamental step toward automated plant growth monitoring systems.
-
-### 🚀 Results
-* **Target Isolation:** Successfully removed overlapping leaves, flowers, and greenhouse structures, leaving a clean mask of the target strawberry leaf.
-* **Trait Extraction:** The algorithm automatically drew a bounding contour around the target leaf and accurately calculated its spatial area in pixels, providing quantifiable phenotypic data.
