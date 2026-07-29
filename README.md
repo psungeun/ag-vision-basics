@@ -77,4 +77,9 @@ In precision agriculture, non-destructive estimation of plant canopy area is cru
 * **Robust Segmentation:** Successfully separated the complex open-field background (soil and stones) from the target lettuce plant without any manual coordinate inputs.
 * **Automated Phenotyping:** The pipeline successfully output the plant's surface area (e.g., 322,537 px), demonstrating a scalable and highly accurate approach for high-throughput crop monitoring.
 
-![Automated Leaf Segmentation Result](project2_result.png)
+<br>
+
+<div align="center">
+  <img src="lettuce_result_output.png" alt="SIFT and RANSAC Tractor Matching Result" width="90%">
+</div>
+
