@@ -17,7 +17,7 @@ This repository records and tests image processing techniques applicable to real
 ## 🛠 Contents (To-Do)
 - [x] **Tractor Object Matching:** Object detection testing for autonomous agricultural machinery (e.g., John Deere) using SIFT & RANSAC algorithms.
 - [x] **Leaf Area Segmentation:** Crop leaf segmentation and area extraction in complex backgrounds using the GrabCut algorithm.
-- [ ] **Image Preprocessing:** Image preprocessing for irregular lighting correction in greenhouse and open-field environments (Gaussian Blur, Gamma Correction).
+- [x] **Image Preprocessing:** Image preprocessing for irregular lighting correction in greenhouse and open-field environments (Gaussian Blur, Gamma Correction).
 
 ---
 
@@ -83,3 +83,29 @@ In precision agriculture, non-destructive estimation of plant canopy area is cru
   <img src="lettuce_result_output.png" alt="Automated Leaf Area Segmentation Result" width="90%">
 </div>
 
+---
+
+## 📝 Project 03: Image Preprocessing for Irregular Lighting Correction
+
+In real-world agricultural environments (greenhouses and open fields), computer vision systems frequently struggle with severe illumination variations, harsh shadows, and sensor noise. This project implements essential image preprocessing techniques to standardize image quality before feeding it into complex phenotyping or detection models.
+
+### 🔍 Methodology
+
+1. **Noise Reduction (Gaussian Blur)**
+   * **Why?** Agricultural images often contain high-frequency noise from dust, sensor artifacts, or complex textures.
+   * **Approach:** Applied a `5x5` Gaussian filter (`cv2.GaussianBlur`) to intelligently smooth the image while preserving vital crop boundary features.
+   
+2. **Illumination Normalization (Gamma Correction)**
+   * **Why?** Direct sunlight creates overexposed areas, while overlapping canopies create deep, underexposed shadows, causing segmentation algorithms to fail.
+   * **Approach:** Implemented a non-linear Gamma Correction function ($V_{out} = V_{in}^{\gamma}$). 
+   * By adjusting the gamma value ($\gamma < 1$ to brighten shadows, $\gamma > 1$ to darken highlights), the dynamic range of the crop image is balanced without completely washing out the colors.
+
+### 🚀 Results
+* **Enhanced Visibility:** Successfully recovered leaf details hidden in deep canopy shadows using $\gamma = 0.5$.
+* **Robust Foundation:** The preprocessed images showed a significantly smoother and more uniform color distribution, drastically improving the reliability of downstream tasks like SIFT matching or GrabCut segmentation.
+
+<br>
+
+<div align="center">
+  <img src="greenhouse_result_output" alt="Image Preprocessing Result with Blur and Gamma" width="90%">
+</div>
