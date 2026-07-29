@@ -107,5 +107,5 @@ In real-world agricultural environments (greenhouses and open fields), computer 
 <br>
 
 <div align="center">
-  <img src="greenhouse_result_output" alt="Image Preprocessing Result with Blur and Gamma" width="90%">
+  <img src="greenhouse_result_output.png" alt="Image Preprocessing Result with Blur and Gamma" width="90%">
 </div>
