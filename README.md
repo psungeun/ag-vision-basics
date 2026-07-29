@@ -52,3 +52,25 @@ This project demonstrates how to reliably detect and match a 3D object (a John D
 <div align="center">
   <img src="result_output.png" alt="SIFT and RANSAC Tractor Matching Result" width="90%">
 </div>
+
+## 📝 Project 02: Leaf Area Segmentation & Phenotypic Trait Extraction
+
+In smart farming and precision agriculture, accurately measuring plant phenotypic traits (e.g., leaf area) is essential for monitoring crop health and growth rates. This project demonstrates how to isolate a specific target leaf from a highly cluttered greenhouse background and computationally extract its physical area.
+
+### 🔍 Methodology
+
+1. **Foreground Segmentation (GrabCut Algorithm)**
+   * **Why?** Greenhouse images contain complex backgrounds (soil, pipes, other overlapping plants) that simple thresholding cannot handle. 
+   * **Approach:** Utilized the Graph-Cut based **GrabCut** algorithm. By initializing a bounding box (ROI) around the target leaf, the algorithm models the color distribution (Gaussian Mixture Model) of the foreground and background, iteratively refining the segmentation mask to isolate only the target leaf.
+   
+2. **Morphological Analysis & Contour Extraction**
+   * Applied binary masking to extract the segmented foreground.
+   * Utilized `cv2.findContours` (External Retrieval Mode) to mathematically define the boundary of the isolated leaf.
+
+3. **Phenotypic Trait Calculation (Leaf Area)**
+   * Computed the total pixel area of the leaf using image moments (`cv2.contourArea`). 
+   * This non-destructive measurement technique is a fundamental step toward automated plant growth monitoring systems.
+
+### 🚀 Results
+* **Target Isolation:** Successfully removed overlapping leaves, flowers, and greenhouse structures, leaving a clean mask of the target strawberry leaf.
+* **Trait Extraction:** The algorithm automatically drew a bounding contour around the target leaf and accurately calculated its spatial area in pixels, providing quantifiable phenotypic data.
