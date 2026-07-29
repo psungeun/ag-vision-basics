@@ -16,7 +16,7 @@ This repository records and tests image processing techniques applicable to real
 
 ## 🛠 Contents (To-Do)
 - [x] **Tractor Object Matching:** Object detection testing for autonomous agricultural machinery (e.g., John Deere) using SIFT & RANSAC algorithms.
-- [ ] **Leaf Area Segmentation:** Crop leaf segmentation and area extraction in complex backgrounds using the GrabCut algorithm.
+- [x] **Leaf Area Segmentation:** Crop leaf segmentation and area extraction in complex backgrounds using the GrabCut algorithm.
 - [ ] **Image Preprocessing:** Image preprocessing for irregular lighting correction in greenhouse and open-field environments (Gaussian Blur, Gamma Correction).
 
 ---
@@ -76,3 +76,5 @@ In precision agriculture, non-destructive estimation of plant canopy area is cru
 ### 🚀 Results
 * **Robust Segmentation:** Successfully separated the complex open-field background (soil and stones) from the target lettuce plant without any manual coordinate inputs.
 * **Automated Phenotyping:** The pipeline successfully output the plant's surface area (e.g., 322,537 px), demonstrating a scalable and highly accurate approach for high-throughput crop monitoring.
+
+![Automated Leaf Segmentation Result](project2_result.png)
