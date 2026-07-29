@@ -80,6 +80,6 @@ In precision agriculture, non-destructive estimation of plant canopy area is cru
 <br>
 
 <div align="center">
-  <img src="lettuce_result_output.png" alt="SIFT and RANSAC Tractor Matching Result" width="90%">
+  <img src="lettuce_result_output.png" alt="Automated Leaf Area Segmentation Result" width="90%">
 </div>
 
